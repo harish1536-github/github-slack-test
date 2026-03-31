@@ -71,6 +71,7 @@ public class GithubServiceImpl implements GithubService {
 
         for (CommitDTO commitDTO : payload.getCommits()) {
 
+            // Skip duplicates
             if (commitRepository.existsByCommitId(commitDTO.getId())) {
                 logger.warn("⚠️ Commit already exists, skipping: {}", commitDTO.getId());
                 continue;
