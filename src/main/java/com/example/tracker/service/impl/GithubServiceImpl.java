@@ -14,8 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -70,9 +68,6 @@ public class GithubServiceImpl implements GithubService {
     private List<Commit> saveCommits(GithubWebhookPayload payload, Author author) {
 
         List<Commit> savedCommits = new ArrayList<>();
-        DateTimeFormatter inputFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy, hh:mm a");
-
 
         for (CommitDTO commitDTO : payload.getCommits()) {
 
@@ -85,14 +80,7 @@ public class GithubServiceImpl implements GithubService {
             Commit commit = new Commit();
             commit.setCommitId(commitDTO.getId());
             commit.setMessage(commitDTO.getMessage());
-            String formattedTimestamp;
-            try {
-                LocalDateTime dateTime = LocalDateTime.parse(commitDTO.getTimestamp(), inputFormatter);
-                formattedTimestamp = dateTime.format(outputFormatter);
-            } catch (Exception e) {
-                logger.error("❌ Error parsing timestamp: {}", commitDTO.getTimestamp(), e);
-                formattedTimestamp = commitDTO.getTimestamp(); // fallback
-            }
+            commit.setTimestamp(commitDTO.getTimestamp());
             commit.setCommitterName(commitDTO.getAuthor().getName());
             commit.setAuthor(author);
 
