@@ -42,7 +42,6 @@ public class GithubWebhookController {
             return ResponseEntity.ok("Pong! Webhook connected.");
         }
 
-        // Handle push
         if ("push".equals(githubEvent)) {
 
             if (payload == null) {
