@@ -24,6 +24,7 @@ public class SlackServiceImpl implements SlackService {
         this.restTemplate = restTemplate;
     }
 
+    // send notification
     @Override
     public void sendNotification(String authorName, List<Commit> commits, String branch) {
 
